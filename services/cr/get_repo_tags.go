@@ -27,24 +27,24 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses"
 )
 
-// GetNamespace invokes the cr.GetNamespace API synchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
-func (client *Client) GetNamespace(request *GetNamespaceRequest) (response *GetNamespaceResponse, err error) {
-	response = CreateGetNamespaceResponse()
+// GetRepoTags invokes the cr.GetRepoTags API synchronously
+// api document: https://help.aliyun.com/api/cr/getrepotags.html
+func (client *Client) GetRepoTags(request *GetRepoTagsRequest) (response *GetRepoTagsResponse, err error) {
+	response = CreateGetRepoTagsResponse()
 	err = client.DoAction(request, response)
 	return
 }
 
-// GetNamespaceWithChan invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// GetRepoTagsWithChan invokes the cr.GetRepoTags API asynchronously
+// api document: https://help.aliyun.com/api/cr/getrepotags.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan *GetNamespaceResponse, <-chan error) {
-	responseChan := make(chan *GetNamespaceResponse, 1)
+func (client *Client) GetRepoTagsWithChan(request *GetRepoTagsRequest) (<-chan *GetRepoTagsResponse, <-chan error) {
+	responseChan := make(chan *GetRepoTagsResponse, 1)
 	errChan := make(chan error, 1)
 	err := client.AddAsyncTask(func() {
 		defer close(responseChan)
 		defer close(errChan)
-		response, err := client.GetNamespace(request)
+		response, err := client.GetRepoTags(request)
 		if err != nil {
 			errChan <- err
 		} else {
@@ -59,16 +59,16 @@ func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan
 	return responseChan, errChan
 }
 
-// GetNamespaceWithCallback invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// GetRepoTagsWithCallback invokes the cr.GetRepoTags API asynchronously
+// api document: https://help.aliyun.com/api/cr/getrepotags.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, callback func(response *GetNamespaceResponse, err error)) <-chan int {
+func (client *Client) GetRepoTagsWithCallback(request *GetRepoTagsRequest, callback func(response *GetRepoTagsResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
-		var response *GetNamespaceResponse
+		var response *GetRepoTagsResponse
 		var err error
 		defer close(result)
-		response, err = client.GetNamespace(request)
+		response, err = client.GetRepoTags(request)
 		callback(response, err)
 		result <- 1
 	})
@@ -80,30 +80,33 @@ func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, cal
 	return result
 }
 
-// GetNamespaceRequest is the request struct for api GetNamespace
-type GetNamespaceRequest struct {
+// GetRepoTagsRequest is the request struct for api GetRepoTags
+type GetRepoTagsRequest struct {
 	*requests.RoaRequest
-	Namespace string `position:"Path" name:"Namespace"`
+	RepoNamespace string           `position:"Path" name:"RepoNamespace"`
+	RepoName      string           `position:"Path" name:"RepoName"`
+	Page          requests.Integer `position:"Query" name:"Page"`
+	PageSize      requests.Integer `position:"Query" name:"PageSize"`
 }
 
-// GetNamespaceResponse is the response struct for api GetNamespace
-type GetNamespaceResponse struct {
+// GetRepoTagsResponse is the response struct for api GetRepoTags
+type GetRepoTagsResponse struct {
 	*responses.BaseResponse
 }
 
-// CreateGetNamespaceRequest creates a request to invoke GetNamespace API
-func CreateGetNamespaceRequest() (request *GetNamespaceRequest) {
-	request = &GetNamespaceRequest{
+// CreateGetRepoTagsRequest creates a request to invoke GetRepoTags API
+func CreateGetRepoTagsRequest() (request *GetRepoTagsRequest) {
+	request = &GetRepoTagsRequest{
 		RoaRequest: &requests.RoaRequest{},
 	}
-	request.InitWithApiInfo("Cr", "2016-06-07", "GetNamespace", "/namespace/[Namespace]", "", "")
+	request.InitWithApiInfo("Cr", "2016-06-07", "GetRepoTags", "/repos/[RepoNamespace]/[RepoName]/tags", "", "")
 	request.Method = requests.GET
 	return
 }
 
-// CreateGetNamespaceResponse creates a response to parse from GetNamespace response
-func CreateGetNamespaceResponse() (response *GetNamespaceResponse) {
-	response = &GetNamespaceResponse{
+// CreateGetRepoTagsResponse creates a response to parse from GetRepoTags response
+func CreateGetRepoTagsResponse() (response *GetRepoTagsResponse) {
+	response = &GetRepoTagsResponse{
 		BaseResponse: &responses.BaseResponse{},
 	}
 	return

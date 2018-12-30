@@ -27,24 +27,24 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses"
 )
 
-// GetNamespace invokes the cr.GetNamespace API synchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
-func (client *Client) GetNamespace(request *GetNamespaceRequest) (response *GetNamespaceResponse, err error) {
-	response = CreateGetNamespaceResponse()
+// DeleteRepo invokes the cr.DeleteRepo API synchronously
+// api document: https://help.aliyun.com/api/cr/deleterepo.html
+func (client *Client) DeleteRepo(request *DeleteRepoRequest) (response *DeleteRepoResponse, err error) {
+	response = CreateDeleteRepoResponse()
 	err = client.DoAction(request, response)
 	return
 }
 
-// GetNamespaceWithChan invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// DeleteRepoWithChan invokes the cr.DeleteRepo API asynchronously
+// api document: https://help.aliyun.com/api/cr/deleterepo.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan *GetNamespaceResponse, <-chan error) {
-	responseChan := make(chan *GetNamespaceResponse, 1)
+func (client *Client) DeleteRepoWithChan(request *DeleteRepoRequest) (<-chan *DeleteRepoResponse, <-chan error) {
+	responseChan := make(chan *DeleteRepoResponse, 1)
 	errChan := make(chan error, 1)
 	err := client.AddAsyncTask(func() {
 		defer close(responseChan)
 		defer close(errChan)
-		response, err := client.GetNamespace(request)
+		response, err := client.DeleteRepo(request)
 		if err != nil {
 			errChan <- err
 		} else {
@@ -59,16 +59,16 @@ func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan
 	return responseChan, errChan
 }
 
-// GetNamespaceWithCallback invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// DeleteRepoWithCallback invokes the cr.DeleteRepo API asynchronously
+// api document: https://help.aliyun.com/api/cr/deleterepo.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, callback func(response *GetNamespaceResponse, err error)) <-chan int {
+func (client *Client) DeleteRepoWithCallback(request *DeleteRepoRequest, callback func(response *DeleteRepoResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
-		var response *GetNamespaceResponse
+		var response *DeleteRepoResponse
 		var err error
 		defer close(result)
-		response, err = client.GetNamespace(request)
+		response, err = client.DeleteRepo(request)
 		callback(response, err)
 		result <- 1
 	})
@@ -80,30 +80,31 @@ func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, cal
 	return result
 }
 
-// GetNamespaceRequest is the request struct for api GetNamespace
-type GetNamespaceRequest struct {
+// DeleteRepoRequest is the request struct for api DeleteRepo
+type DeleteRepoRequest struct {
 	*requests.RoaRequest
-	Namespace string `position:"Path" name:"Namespace"`
+	RepoNamespace string `position:"Path" name:"RepoNamespace"`
+	RepoName      string `position:"Path" name:"RepoName"`
 }
 
-// GetNamespaceResponse is the response struct for api GetNamespace
-type GetNamespaceResponse struct {
+// DeleteRepoResponse is the response struct for api DeleteRepo
+type DeleteRepoResponse struct {
 	*responses.BaseResponse
 }
 
-// CreateGetNamespaceRequest creates a request to invoke GetNamespace API
-func CreateGetNamespaceRequest() (request *GetNamespaceRequest) {
-	request = &GetNamespaceRequest{
+// CreateDeleteRepoRequest creates a request to invoke DeleteRepo API
+func CreateDeleteRepoRequest() (request *DeleteRepoRequest) {
+	request = &DeleteRepoRequest{
 		RoaRequest: &requests.RoaRequest{},
 	}
-	request.InitWithApiInfo("Cr", "2016-06-07", "GetNamespace", "/namespace/[Namespace]", "", "")
-	request.Method = requests.GET
+	request.InitWithApiInfo("Cr", "2016-06-07", "DeleteRepo", "/repos/[RepoNamespace]/[RepoName]", "", "")
+	request.Method = requests.DELETE
 	return
 }
 
-// CreateGetNamespaceResponse creates a response to parse from GetNamespace response
-func CreateGetNamespaceResponse() (response *GetNamespaceResponse) {
-	response = &GetNamespaceResponse{
+// CreateDeleteRepoResponse creates a response to parse from DeleteRepo response
+func CreateDeleteRepoResponse() (response *DeleteRepoResponse) {
+	response = &DeleteRepoResponse{
 		BaseResponse: &responses.BaseResponse{},
 	}
 	return

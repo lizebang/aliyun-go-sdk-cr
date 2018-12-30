@@ -27,24 +27,24 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses"
 )
 
-// GetNamespace invokes the cr.GetNamespace API synchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
-func (client *Client) GetNamespace(request *GetNamespaceRequest) (response *GetNamespaceResponse, err error) {
-	response = CreateGetNamespaceResponse()
+// QueryImageLayerInfo invokes the cr.QueryImageLayerInfo API synchronously
+// api document: https://help.aliyun.com/api/cr/query-image-layer-info.html
+func (client *Client) QueryImageLayerInfo(request *QueryImageLayerInfoRequest) (response *QueryImageLayerInfoResponse, err error) {
+	response = CreateQueryImageLayerInfoResponse()
 	err = client.DoAction(request, response)
 	return
 }
 
-// GetNamespaceWithChan invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// QueryImageLayerInfoWithChan invokes the cr.QueryImageLayerInfo API asynchronously
+// api document: https://help.aliyun.com/api/cr/query-image-layer-info.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan *GetNamespaceResponse, <-chan error) {
-	responseChan := make(chan *GetNamespaceResponse, 1)
+func (client *Client) QueryImageLayerInfoWithChan(request *QueryImageLayerInfoRequest) (<-chan *QueryImageLayerInfoResponse, <-chan error) {
+	responseChan := make(chan *QueryImageLayerInfoResponse, 1)
 	errChan := make(chan error, 1)
 	err := client.AddAsyncTask(func() {
 		defer close(responseChan)
 		defer close(errChan)
-		response, err := client.GetNamespace(request)
+		response, err := client.QueryImageLayerInfo(request)
 		if err != nil {
 			errChan <- err
 		} else {
@@ -59,16 +59,16 @@ func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan
 	return responseChan, errChan
 }
 
-// GetNamespaceWithCallback invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// QueryImageLayerInfoWithCallback invokes the cr.QueryImageLayerInfo API asynchronously
+// api document: https://help.aliyun.com/api/cr/query-image-layer-info.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, callback func(response *GetNamespaceResponse, err error)) <-chan int {
+func (client *Client) QueryImageLayerInfoWithCallback(request *QueryImageLayerInfoRequest, callback func(response *QueryImageLayerInfoResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
-		var response *GetNamespaceResponse
+		var response *QueryImageLayerInfoResponse
 		var err error
 		defer close(result)
-		response, err = client.GetNamespace(request)
+		response, err = client.QueryImageLayerInfo(request)
 		callback(response, err)
 		result <- 1
 	})
@@ -80,30 +80,32 @@ func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, cal
 	return result
 }
 
-// GetNamespaceRequest is the request struct for api GetNamespace
-type GetNamespaceRequest struct {
+// QueryImageLayerInfoRequest is the request struct for api QueryImageLayerInfo
+type QueryImageLayerInfoRequest struct {
 	*requests.RoaRequest
-	Namespace string `position:"Path" name:"Namespace"`
+	RepoNamespace string `position:"Path" name:"RepoNamespace"`
+	RepoName      string `position:"Path" name:"RepoName"`
+	Tag           string `position:"Path" name:"Tag"`
 }
 
-// GetNamespaceResponse is the response struct for api GetNamespace
-type GetNamespaceResponse struct {
+// QueryImageLayerInfoResponse is the response struct for api QueryImageLayerInfo
+type QueryImageLayerInfoResponse struct {
 	*responses.BaseResponse
 }
 
-// CreateGetNamespaceRequest creates a request to invoke GetNamespace API
-func CreateGetNamespaceRequest() (request *GetNamespaceRequest) {
-	request = &GetNamespaceRequest{
+// CreateQueryImageLayerInfoRequest creates a request to invoke QueryImageLayerInfo API
+func CreateQueryImageLayerInfoRequest() (request *QueryImageLayerInfoRequest) {
+	request = &QueryImageLayerInfoRequest{
 		RoaRequest: &requests.RoaRequest{},
 	}
-	request.InitWithApiInfo("Cr", "2016-06-07", "GetNamespace", "/namespace/[Namespace]", "", "")
+	request.InitWithApiInfo("Cr", "2016-06-07", "QueryImageLayerInfo", "/repos/[RepoNamespace]/[RepoName]/tags/[Tag]/layers", "", "")
 	request.Method = requests.GET
 	return
 }
 
-// CreateGetNamespaceResponse creates a response to parse from GetNamespace response
-func CreateGetNamespaceResponse() (response *GetNamespaceResponse) {
-	response = &GetNamespaceResponse{
+// CreateQueryImageLayerInfoResponse creates a response to parse from QueryImageLayerInfo response
+func CreateQueryImageLayerInfoResponse() (response *QueryImageLayerInfoResponse) {
+	response = &QueryImageLayerInfoResponse{
 		BaseResponse: &responses.BaseResponse{},
 	}
 	return

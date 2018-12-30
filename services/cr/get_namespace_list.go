@@ -27,24 +27,24 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses"
 )
 
-// GetNamespace invokes the cr.GetNamespace API synchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
-func (client *Client) GetNamespace(request *GetNamespaceRequest) (response *GetNamespaceResponse, err error) {
-	response = CreateGetNamespaceResponse()
+// GetNamespaceList invokes the cr.GetNamespaceList API synchronously
+// api document: https://help.aliyun.com/api/cr/getnamespacelist.html
+func (client *Client) GetNamespaceList(request *GetNamespaceListRequest) (response *GetNamespaceListResponse, err error) {
+	response = CreateGetNamespaceListResponse()
 	err = client.DoAction(request, response)
 	return
 }
 
-// GetNamespaceWithChan invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// GetNamespaceListWithChan invokes the cr.GetNamespaceList API asynchronously
+// api document: https://help.aliyun.com/api/cr/getnamespacelist.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan *GetNamespaceResponse, <-chan error) {
-	responseChan := make(chan *GetNamespaceResponse, 1)
+func (client *Client) GetNamespaceListWithChan(request *GetNamespaceListRequest) (<-chan *GetNamespaceListResponse, <-chan error) {
+	responseChan := make(chan *GetNamespaceListResponse, 1)
 	errChan := make(chan error, 1)
 	err := client.AddAsyncTask(func() {
 		defer close(responseChan)
 		defer close(errChan)
-		response, err := client.GetNamespace(request)
+		response, err := client.GetNamespaceList(request)
 		if err != nil {
 			errChan <- err
 		} else {
@@ -59,16 +59,16 @@ func (client *Client) GetNamespaceWithChan(request *GetNamespaceRequest) (<-chan
 	return responseChan, errChan
 }
 
-// GetNamespaceWithCallback invokes the cr.GetNamespace API asynchronously
-// api document: https://help.aliyun.com/api/cr/getnamespace.html
+// GetNamespaceListWithCallback invokes the cr.GetNamespaceList API asynchronously
+// api document: https://help.aliyun.com/api/cr/getnamespacelist.html
 // asynchronous document: https://help.aliyun.com/document_detail/66220.html
-func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, callback func(response *GetNamespaceResponse, err error)) <-chan int {
+func (client *Client) GetNamespaceListWithCallback(request *GetNamespaceListRequest, callback func(response *GetNamespaceListResponse, err error)) <-chan int {
 	result := make(chan int, 1)
 	err := client.AddAsyncTask(func() {
-		var response *GetNamespaceResponse
+		var response *GetNamespaceListResponse
 		var err error
 		defer close(result)
-		response, err = client.GetNamespace(request)
+		response, err = client.GetNamespaceList(request)
 		callback(response, err)
 		result <- 1
 	})
@@ -80,30 +80,29 @@ func (client *Client) GetNamespaceWithCallback(request *GetNamespaceRequest, cal
 	return result
 }
 
-// GetNamespaceRequest is the request struct for api GetNamespace
-type GetNamespaceRequest struct {
+// GetNamespaceListRequest is the request struct for api GetNamespaceList
+type GetNamespaceListRequest struct {
 	*requests.RoaRequest
-	Namespace string `position:"Path" name:"Namespace"`
 }
 
-// GetNamespaceResponse is the response struct for api GetNamespace
-type GetNamespaceResponse struct {
+// GetNamespaceListResponse is the response struct for api GetNamespaceList
+type GetNamespaceListResponse struct {
 	*responses.BaseResponse
 }
 
-// CreateGetNamespaceRequest creates a request to invoke GetNamespace API
-func CreateGetNamespaceRequest() (request *GetNamespaceRequest) {
-	request = &GetNamespaceRequest{
+// CreateGetNamespaceListRequest creates a request to invoke GetNamespaceList API
+func CreateGetNamespaceListRequest() (request *GetNamespaceListRequest) {
+	request = &GetNamespaceListRequest{
 		RoaRequest: &requests.RoaRequest{},
 	}
-	request.InitWithApiInfo("Cr", "2016-06-07", "GetNamespace", "/namespace/[Namespace]", "", "")
+	request.InitWithApiInfo("Cr", "2016-06-07", "GetNamespaceList", "/namespace", "", "")
 	request.Method = requests.GET
 	return
 }
 
-// CreateGetNamespaceResponse creates a response to parse from GetNamespace response
-func CreateGetNamespaceResponse() (response *GetNamespaceResponse) {
-	response = &GetNamespaceResponse{
+// CreateGetNamespaceListResponse creates a response to parse from GetNamespaceList response
+func CreateGetNamespaceListResponse() (response *GetNamespaceListResponse) {
+	response = &GetNamespaceListResponse{
 		BaseResponse: &responses.BaseResponse{},
 	}
 	return

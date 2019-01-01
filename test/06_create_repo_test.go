@@ -34,7 +34,7 @@ func Test_CreateRepoWithRepoSource(t *testing.T) {
 	request.SetDomain(os.Getenv("DOMAIN"))
 	crrb, _ := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO")+"-with-repo-source",
 		os.Getenv("REPO")+"-with-repo-source", os.Getenv("REPO")+"-with-repo-source", cr.RepoTypePrivate)
-	crrb.SetRepoSource(cr.SourceRepoTypeGitHub, "lizebang", "docker-images")
+	crrb.SetRepoSource(cr.SourceRepoTypeGitHub, os.Getenv("GITHUB_USER"), os.Getenv("GITHUB_REPO"))
 	body, err := crrb.Marshal()
 	assert.Nil(t, err)
 	request.SetContent(body)
@@ -52,7 +52,7 @@ func Test_CreateRepoForTest(t *testing.T) {
 	request.SetDomain(os.Getenv("DOMAIN"))
 	crrb, _ := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO"), os.Getenv("REPO"),
 		os.Getenv("REPO"), cr.RepoTypePrivate)
-	crrb.SetRepoSource(cr.SourceRepoTypeGitHub, "lizebang", "docker-images")
+	crrb.SetRepoSource(cr.SourceRepoTypeGitHub, os.Getenv("GITHUB_USER"), os.Getenv("GITHUB_REPO"))
 	body, err := crrb.Marshal()
 	assert.Nil(t, err)
 	request.SetContent(body)

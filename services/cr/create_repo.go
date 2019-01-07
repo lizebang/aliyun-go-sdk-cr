@@ -139,14 +139,14 @@ type CreateRepoRequestBodyRepoSource struct {
 }
 
 // NewCreateRepoRequestBody creates a request body
-func NewCreateRepoRequestBody(namespace, name, summary, detail string, rtype repoType) (body *CreateRepoRequestBody, err error) {
+func NewCreateRepoRequestBody(namespace, name, summary, detail string, rtype repoType) *CreateRepoRequestBody {
 	crrb := &CreateRepoRequestBody{}
 	crrb.Repo.RepoNamespace = namespace
 	crrb.Repo.RepoName = name
 	crrb.Repo.Summary = summary
 	crrb.Repo.Detail = detail
 	crrb.Repo.RepoType = rtype
-	return crrb, nil
+	return crrb
 }
 
 // SetRepoSource sets the repository source

@@ -120,11 +120,11 @@ type UpdateNamespaceRequestBody struct {
 }
 
 // NewUpdateNamespaceRequestBody creates a request body
-func NewUpdateNamespaceRequestBody(auto bool, visibility namespaceVisibility) (body *UpdateNamespaceRequestBody, err error) {
+func NewUpdateNamespaceRequestBody(auto bool, visibility namespaceVisibility) *UpdateNamespaceRequestBody {
 	unrb := &UpdateNamespaceRequestBody{}
 	unrb.Namespace.AutoCreate = auto
 	unrb.Namespace.DefaultVisibility = visibility
-	return unrb, nil
+	return unrb
 }
 
 // Marshal returns the JSON encoding of the request body

@@ -122,12 +122,12 @@ type UpdateRepoRequestBody struct {
 }
 
 // NewUpdateRepoRequestBody creates a request body
-func NewUpdateRepoRequestBody(summary, detail string, rtype repoType) (body *UpdateRepoRequestBody, err error) {
+func NewUpdateRepoRequestBody(summary, detail string, rtype repoType) *UpdateRepoRequestBody {
 	urrb := &UpdateRepoRequestBody{}
 	urrb.Repo.Summary = summary
 	urrb.Repo.Detail = detail
 	urrb.Repo.RepoType = rtype
-	return urrb, nil
+	return urrb
 }
 
 // Marshal returns the JSON encoding of the request body

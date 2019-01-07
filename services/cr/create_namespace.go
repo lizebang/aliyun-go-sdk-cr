@@ -118,10 +118,10 @@ type CreateNamespaceRequestBody struct {
 }
 
 // NewCreateNamespaceRequestBody creates a request body
-func NewCreateNamespaceRequestBody(namespace string) (body *CreateNamespaceRequestBody, err error) {
+func NewCreateNamespaceRequestBody(namespace string) *CreateNamespaceRequestBody {
 	cnrb := &CreateNamespaceRequestBody{}
 	cnrb.Namespace.Namespace = namespace
-	return cnrb, nil
+	return cnrb
 }
 
 // Marshal returns the JSON encoding of request body

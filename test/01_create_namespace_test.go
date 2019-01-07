@@ -15,7 +15,7 @@ func Test_CreateNamespace(t *testing.T) {
 
 	request := cr.CreateCreateNamespaceRequest()
 	request.SetDomain(os.Getenv("DOMAIN"))
-	cnrb, _ := cr.NewCreateNamespaceRequestBody(os.Getenv("NAMESPACE") + "-delete")
+	cnrb := cr.NewCreateNamespaceRequestBody(os.Getenv("NAMESPACE") + "-delete")
 	body, err := cnrb.Marshal()
 	assert.Nil(t, err)
 	request.SetContent(body)
@@ -31,7 +31,7 @@ func Test_CreateNamespaceForTest(t *testing.T) {
 
 	request := cr.CreateCreateNamespaceRequest()
 	request.SetDomain(os.Getenv("DOMAIN"))
-	cnrb, _ := cr.NewCreateNamespaceRequestBody(os.Getenv("NAMESPACE"))
+	cnrb := cr.NewCreateNamespaceRequestBody(os.Getenv("NAMESPACE"))
 	body, err := cnrb.Marshal()
 	assert.Nil(t, err)
 	request.SetContent(body)

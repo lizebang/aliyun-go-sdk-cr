@@ -15,7 +15,7 @@ func Test_CreateRepo(t *testing.T) {
 
 	request := cr.CreateCreateRepoRequest()
 	request.SetDomain(os.Getenv("DOMAIN"))
-	crrb, _ := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO")+"-without-repo-source",
+	crrb := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO")+"-without-repo-source",
 		os.Getenv("REPO")+"-without-repo-source", os.Getenv("REPO")+"-without-repo-source", cr.RepoTypePrivate)
 	body, err := crrb.Marshal()
 	assert.Nil(t, err)
@@ -32,7 +32,7 @@ func Test_CreateRepoWithRepoSource(t *testing.T) {
 
 	request := cr.CreateCreateRepoRequest()
 	request.SetDomain(os.Getenv("DOMAIN"))
-	crrb, _ := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO")+"-with-repo-source",
+	crrb := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO")+"-with-repo-source",
 		os.Getenv("REPO")+"-with-repo-source", os.Getenv("REPO")+"-with-repo-source", cr.RepoTypePrivate)
 	crrb.SetRepoSource(cr.SourceRepoTypeGitHub, os.Getenv("GITHUB_USER"), os.Getenv("GITHUB_REPO"))
 	body, err := crrb.Marshal()
@@ -50,7 +50,7 @@ func Test_CreateRepoForTest(t *testing.T) {
 
 	request := cr.CreateCreateRepoRequest()
 	request.SetDomain(os.Getenv("DOMAIN"))
-	crrb, _ := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO"), os.Getenv("REPO"),
+	crrb := cr.NewCreateRepoRequestBody(os.Getenv("NAMESPACE"), os.Getenv("REPO"), os.Getenv("REPO"),
 		os.Getenv("REPO"), cr.RepoTypePrivate)
 	crrb.SetRepoSource(cr.SourceRepoTypeGitHub, os.Getenv("GITHUB_USER"), os.Getenv("GITHUB_REPO"))
 	body, err := crrb.Marshal()
